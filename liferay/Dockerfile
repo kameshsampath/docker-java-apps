@@ -1,4 +1,4 @@
-FROM ubuntu:precise
+FROM kameshsampath/openjdk-jre-6
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
