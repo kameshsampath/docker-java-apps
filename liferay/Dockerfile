@@ -24,13 +24,13 @@ RUN echo 'root:root' | chpasswd
 RUN apt-get -q -y install openjdk-6-jre
 
 # Dowload Liferay Portal 6.2.x Community Edition
-RUN wget -Oliferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip  http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/6.2.1%20GA2/liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Flportal%2Ffiles%2FLiferay%2520Portal%2F6.2.1%2520GA2%2F&ts=1402761459&use_mirror=jaist
+RUN wget -Oliferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip  http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.1%20GA2/liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip/download
 
 # Unzip the Portal Tomcat Bundle
 RUN unzip liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip
 
 # Create a soft link 
-RUN ln -s /liferay-portal-tomcat-6.2-ce-ga2 liferay
+RUN ln -s /iferay-portal-tomcat-6.2-ce-ga2 liferay
 
 # Remove the bundle
 RUN rm liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip
