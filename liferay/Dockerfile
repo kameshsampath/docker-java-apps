@@ -3,7 +3,7 @@ FROM kameshsampath/openjdk-jre-6
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
 # Update the APT cache
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
+# RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get upgrade -y
 
@@ -23,17 +23,17 @@ RUN echo 'root:root' | chpasswd
 # Install JRE 6, Liferay is yet to support JDK 7 officially
 RUN apt-get -q -y install openjdk-6-jre
 
-# Dowload Liferay Portal 6.2.0-ga1 Community Edition
-RUN wget -Oliferay-portal-tomcat-6.2.0-ce-ga1-20131101192857659.zip  http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.0%20GA1/liferay-portal-tomcat-6.2.0-ce-ga1-20131101192857659.zip/download
+# Dowload Liferay Portal 6.2.x Community Edition
+RUN wget -Oliferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip  http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/6.2.1%20GA2/liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Flportal%2Ffiles%2FLiferay%2520Portal%2F6.2.1%2520GA2%2F&ts=1402761459&use_mirror=jaist
 
 # Unzip the Portal Tomcat Bundle
-RUN unzip liferay-portal-tomcat-6.2.0-ce-ga1-20131101192857659.zip
+RUN unzip liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip
 
 # Create a soft link 
-RUN ln -s /liferay-portal-6.2.0-ce-ga1 liferay
+RUN ln -s /liferay-portal-tomcat-6.2-ce-ga2 liferay
 
 # Remove the bundle
-RUN rm liferay-portal-tomcat-6.2.0-ce-ga1-20131101192857659.zip
+RUN rm liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip
 
 # Update the sysctl.conf file
 
