@@ -7,9 +7,9 @@ MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 RUN apt-get update
 RUN apt-get upgrade -y
 
-# Hack for initctl
-RUN dpkg-divert --local --rename --add /sbin/initctl
-RUN ln -s /bin/true /sbin/initctl
+# Hack for initctl(Not used for latest ubuntu versions)
+# RUN dpkg-divert --local --rename --add /sbin/initctl
+# RUN ln -s /bin/true /sbin/initctl
 
 # Install and setup project dependencies
 RUN apt-get install -y curl unzip lsb-release supervisor openssh-server rsyslog net-tools
