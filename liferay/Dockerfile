@@ -2,10 +2,6 @@ FROM kameshsampath/openjdk-jre-6:precise
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
-# Hack for initctl
-RUN dpkg-divert --local --rename --add /sbin/initctl
-RUN ln -s /bin/true /sbin/initctl
-
 # Install and setup project dependencies
 RUN apt-get install --fix-missing -y lsb-release supervisor openssh-server rsyslog net-tools
 RUN mkdir -p /var/run/sshd
@@ -14,9 +10,6 @@ RUN locale-gen en_US en_US.UTF-8
 ADD supervisord.conf /etc/supervisor/conf.d/supervisor.conf
 # Set the root account password
 RUN echo 'root:root' | chpasswd
-
-# Install JRE 6, Liferay is yet to support JDK 7 officially
-RUN apt-get -q -y install openjdk-6-jre
 
 # Dowload Liferay Portal 6.2.0-ga1 Community Edition
 RUN wget -Oliferay-portal-tomcat-6.2.0-ce-ga1-20131101192857659.zip  http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.0%20GA1/liferay-portal-tomcat-6.2.0-ce-ga1-20131101192857659.zip/download
