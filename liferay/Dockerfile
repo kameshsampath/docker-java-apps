@@ -3,25 +3,17 @@ FROM kameshsampath/openjdk-jre-6
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
 # Update the APT cache
-# RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get upgrade -y
-
-# Hack for initctl(Not used for latest ubuntu versions)
-# RUN dpkg-divert --local --rename --add /sbin/initctl
-# RUN ln -s /bin/true /sbin/initctl
+RUN apt-get update --fix-missing
+RUN apt-get upgrade -y --fix-missing
 
 # Install and setup project dependencies
-RUN apt-get install -y curl unzip lsb-release supervisor openssh-server rsyslog net-tools
+RUN apt-get install -y --fix-missing lsb-release supervisor openssh-server rsyslog net-tools
 RUN mkdir -p /var/run/sshd
 RUN mkdir -p /var/log/supervisor
 RUN locale-gen en_US en_US.UTF-8
 ADD supervisord.conf /etc/supervisor/conf.d/supervisor.conf
 # Set the root account password
 RUN echo 'root:root' | chpasswd
-
-# Install JRE 6, Liferay is yet to support JDK 7 officially
-RUN apt-get -q -y install openjdk-6-jre
 
 # Dowload Liferay Portal 6.2.x Community Edition
 RUN wget -Oliferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip  http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.1%20GA2/liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip/download
