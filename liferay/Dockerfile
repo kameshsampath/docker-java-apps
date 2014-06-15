@@ -2,17 +2,12 @@ FROM kameshsampath/openjdk-jre-6:precise
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
-# Update the APT cache
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get upgrade -y
-
 # Hack for initctl
 RUN dpkg-divert --local --rename --add /sbin/initctl
 RUN ln -s /bin/true /sbin/initctl
 
 # Install and setup project dependencies
-RUN apt-get install -y curl unzip lsb-release supervisor openssh-server rsyslog net-tools
+RUN apt-get install --fix-missing -y lsb-release supervisor openssh-server rsyslog net-tools
 RUN mkdir -p /var/run/sshd
 RUN mkdir -p /var/log/supervisor
 RUN locale-gen en_US en_US.UTF-8
