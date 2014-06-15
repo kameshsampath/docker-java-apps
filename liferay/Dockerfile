@@ -30,7 +30,7 @@ RUN wget -Oliferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip  http://source
 RUN unzip liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip
 
 # Create a soft link 
-RUN ln -s /iferay-portal-tomcat-6.2-ce-ga2 liferay
+RUN ln -s /liferay-portal-tomcat-6.2-ce-ga2 liferay
 
 # Remove the bundle
 RUN rm liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip
