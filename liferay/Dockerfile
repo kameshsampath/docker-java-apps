@@ -1,4 +1,4 @@
-FROM kameshsampath/openjdk-jre-6
+FROM kameshsampath/openjdk-jre-6:precise
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 

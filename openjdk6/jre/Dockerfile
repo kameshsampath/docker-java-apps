@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:precise
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
