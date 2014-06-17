@@ -13,7 +13,7 @@ RUN mkdir -p /var/log/supervisor
 RUN locale-gen en_US en_US.UTF-8
 ADD supervisord.conf /etc/supervisor/conf.d/supervisor.conf
 # Set the root account password
-RUN echo 'root:docker@123' | chpasswd
+RUN echo 'root:root' | chpasswd
 
 # Dowload Liferay Portal 6.2.x Community Edition
 RUN wget -Oliferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip  http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.1%20GA2/liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip/download
