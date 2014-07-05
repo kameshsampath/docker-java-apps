@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM kameshsampath/ubuntu
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 

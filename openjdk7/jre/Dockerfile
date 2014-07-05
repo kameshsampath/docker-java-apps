@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM kameshsampath/ubuntu
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
@@ -7,4 +7,4 @@ RUN apt-get update
 RUN apt-get upgrade -y
 
 # Install JRE 7
-RUN apt-get -q -y --fix-missing install openjdk-7-jre-headless
+RUN apt-get -q -y install openjdk-7-jre-headless

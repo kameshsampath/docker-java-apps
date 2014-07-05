@@ -1,52 +1,41 @@
-FROM kameshsampath/openjdk-jre-6
+FROM kameshsampath/openjdk-jre-7
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
 # Update the APT cache
-RUN apt-get update --fix-missing
-RUN apt-get upgrade -y --fix-missing
-
-# Install and setup project dependencies
-RUN apt-get install -y --fix-missing lsb-release supervisor openssh-server rsyslog net-tools
-RUN mkdir -p /var/run/sshd
-RUN mkdir -p /var/log/supervisor
-RUN locale-gen en_US en_US.UTF-8
-ADD supervisord.conf /etc/supervisor/conf.d/supervisor.conf
-# Set the root account password
-RUN echo 'root:docker@123' | chpasswd
-
-# Dowload Liferay Portal 6.2.x Community Edition
-RUN wget -Oliferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip  http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.1%20GA2/liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip/download
-
-# Unzip the Portal Tomcat Bundle
-RUN unzip liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip
-
-# Create a soft link      
-RUN ln -s /liferay-portal-6.2-ce-ga2 liferay
-
-# Remove the bundle
-RUN rm liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip
+RUN apt-get update
 
 # Update the sysctl.conf file
 
 RUN sed -i.bak '$ i \ fs.file.max = 300000' /etc/sysctl.conf
 
-
 # Update the limits.conf file
 
 RUN sed -i.bak '$ i \
 \*             hard     nofile         8192\n \*             soft     nofile         8192' /etc/security/limits.conf
- 
 
-# Update the setenv.sh for optimal JDK settings
-RUN sed -i.bak '/CATALINA_OPTS\=/ c \CATALINA_OPTS\="$CATALINA_OPTS -server -Duser.timezone\=GMT -Djava.awt.headless\=true -Dfile.encoding\=UTF-8 -Xms1024m -Xmx1024m -XX:NewSize\=256m -XX:MaxNewSize\=256m -XX:PermSize\=256m -XX:MaxPermSize\=256m -XX:+DisableExplicitGC  -Dorg.apache.catalina.loader.WebappClassLoader.ENABLE_CLEAR_REFERENCES\=false"' /liferay/tomcat-7.0.42/bin/setenv.sh
+# Dowload Liferay Portal 6.2.x Community Edition
+  RUN wget -Oliferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip  http://sourceforge.net/projects/# lportal/files/Liferay%20Portal/6.2.1%20GA2/liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip/ download
 
-# Change the system to use dns before files for host name resolution
-RUN sed -i.bak 's/files dns/dns files/' /etc/nsswitch.conf
+# Unzip the Portal Tomcat Bundle
+RUN unzip -qq liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip
+
+# Add the Portal related property files
+ADD ./conf/liferay/portal-ext.properties /liferay-portal-6.2-ce-ga2/tomcat-7.0.42/webapps/ROOT/WEB-INF/classes/portal-ext.properties
+
+# Remove the bundle
+RUN rm liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip ;\
+   sed -i.bak '/CATALINA_OPTS\=/ c \CATALINA_OPTS\="$CATALINA_OPTS -server -Duser.timezone\=GMT -Djava.awt.headless\=true -Dfile.encoding\=UTF-8 -Xms1024m -Xmx1024m -XX:NewSize\=256m -XX:MaxNewSize\=256m -XX:PermSize\=256m -XX:MaxPermSize\=256m -XX:+DisableExplicitGC  -Dorg.apache.catalina.loader.WebappClassLoader.ENABLE_CLEAR_REFERENCES\=false"' /liferay-portal-6.2-ce-ga2/tomcat-7.0.42/bin/setenv.sh
+
+# Liferay Home Dir
+VOLUME /liferay
+
+WORKDIR /liferay-portal-6.2-ce-ga2
 
 # Expose the ports
 EXPOSE 22 8080
 
-# Start the supervisord
-CMD ["/usr/bin/supervisord"]
+# Start Liferay
+ENTRYPOINT ["tomcat-7.0.42/bin/catalina.sh"]
+CMD ["run"]
 
