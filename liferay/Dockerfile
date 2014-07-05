@@ -2,8 +2,8 @@ FROM kameshsampath/openjdk-jre-7
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
-# Update the APT cache
-RUN apt-get update
+#Update
+RUN yum -y update
 
 # Update the sysctl.conf file
 
@@ -15,7 +15,10 @@ RUN sed -i.bak '$ i \
 \*             hard     nofile         8192\n \*             soft     nofile         8192' /etc/security/limits.conf
 
 # Dowload Liferay Portal 6.2.x Community Edition
-  RUN wget -Oliferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip  http://sourceforge.net/projects/# lportal/files/Liferay%20Portal/6.2.1%20GA2/liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip/ download
+#  RUN wget -nv -Oliferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip  http://sourceforge.net/projects/# lportal/files/Liferay%20Portal/6.2.1%20GA2/liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip/ download
+
+# Uncomment this if you dont want to download from external servers (adjust your local server)
+RUN wget -nv -Oliferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip  http://192.168.157.1/liferay/files/liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip
 
 # Unzip the Portal Tomcat Bundle
 RUN unzip -qq liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip
@@ -28,7 +31,7 @@ RUN rm liferay-portal-tomcat-6.2-ce-ga2-20140319114139101.zip ;\
    sed -i.bak '/CATALINA_OPTS\=/ c \CATALINA_OPTS\="$CATALINA_OPTS -server -Duser.timezone\=GMT -Djava.awt.headless\=true -Dfile.encoding\=UTF-8 -Xms1024m -Xmx1024m -XX:NewSize\=256m -XX:MaxNewSize\=256m -XX:PermSize\=256m -XX:MaxPermSize\=256m -XX:+DisableExplicitGC  -Dorg.apache.catalina.loader.WebappClassLoader.ENABLE_CLEAR_REFERENCES\=false"' /liferay-portal-6.2-ce-ga2/tomcat-7.0.42/bin/setenv.sh
 
 # Liferay Home Dir
-VOLUME /liferay
+VOLUME ["/liferay"]
 
 WORKDIR /liferay-portal-6.2-ce-ga2
 

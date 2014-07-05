@@ -1,10 +1,9 @@
-FROM kameshsampath/ubuntu
+FROM kameshsampath/fedora
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
-# Update the APT cache
-RUN apt-get update
-RUN apt-get upgrade -y
+# Update
+RUN yum -y update
 
 # Install JDK 7
-RUN apt-get -q -y install openjdk-7-jdk
+RUN yum -y install java-1.7.0-openjdk-devel

@@ -1,10 +1,10 @@
-FROM kameshsampath/ubuntu
+FROM kameshsampath/fedora
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
-# Update the APT cache
-RUN apt-get update 
-RUN apt-get upgrade -y
+# Update 
+RUN yum -y update
 
 # Install JRE 7
-RUN apt-get -q -y install openjdk-7-jre-headless
+# RUN yum -y install java-1.7.0-openjdk
+  RUN yum -y install java-1.7.0-openjdk-headless
