@@ -1,0 +1,17 @@
+{
+	"containers":[
+    {
+      "name":"liferay62",
+      "count":1,
+      "image":"kameshsampath/liferay",
+      "publicports":[{"internal":8080,"external":8280}],
+      "links":[{"to":"mariadb"}]
+    },
+    {
+      "name":"kameshsampath/liferay-mariadb",
+      "count":1,
+      "image":"mariadb",
+      "publicports":[{"internal":3306}]
+    }
+  ]
+}

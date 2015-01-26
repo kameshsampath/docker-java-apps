@@ -2,6 +2,12 @@ FROM kameshsampath/fedora
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
+# clean repo
+RUN yum -y clean all
+
+#
+RUN yum -y makecache fast
+
 # Update
 RUN yum -y update
 
