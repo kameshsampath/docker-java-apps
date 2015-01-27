@@ -2,8 +2,17 @@ FROM kameshsampath/openjdk-jre-7
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
+# clean repo
+RUN yum -y clean all
+
+#
+RUN yum -y makecache fast
+
 #Update
 RUN yum -y update
+
+#Update
+RUN yum -y install unzip wget net-tools
 
 # Update the sysctl.conf file
 
