@@ -1,15 +1,7 @@
-FROM centos
+FROM alpine
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
-# clean repo
-RUN yum -y clean all
+## Install OpenJDK jre
 
-#
-RUN yum -y makecache fast
-
-# Update 
-RUN yum -y update
-
-# Install JRE 7
-RUN yum -y install java-1.7.0-openjdk-headless
+RUN apk add --update unzip wget openjdk7-jre

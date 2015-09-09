@@ -1,53 +1,50 @@
+# Liferay Portal 6.2 CE
+#
+# VERSION               0.0.1
+
 FROM kameshsampath/openjdk-jre-7
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
-# clean repo
-RUN yum -y clean all
+# install necessary packages
+RUN apk add --update unzip wget openjdk7-jre
 
-#
-RUN yum -y makecache fast
-
-#Update
-RUN yum -y update
-
-#Update
-RUN yum -y install unzip wget net-tools
-
-# Update the sysctl.conf file
-
-RUN sed -i.bak '$ i \ fs.file.max = 300000' /etc/sysctl.conf
-
-# Update the limits.conf file
-
-RUN sed -i.bak '$ i \
-\*             hard     nofile         8192\n \*             soft     nofile         8192' /etc/security/limits.conf
-
-# Dowload Liferay Portal 6.2.x Community Edition
-RUN wget -nv -Oliferay-portal-tomcat-6.2-ce-ga3-20150103155803016.zip  http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.2%20GA3/liferay-portal-tomcat-6.2-ce-ga3-20150103155803016.zip/download
-
-# Uncomment this if you dont want to download from external servers (adjust your local server)
-# RUN wget -nv -Oliferay-portal-tomcat-6.2-ce-ga3-20150103155803016.zip  http://192.168.157.1/liferay/files/liferay-portal-tomcat-6.2-ce-ga3-20150103155803016.zip
+# Download Liferay Portal 6.2-ce-ga4  
+RUN wget -Oliferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.3%20GA4/liferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip/download
 
 # Unzip the Portal Tomcat Bundle
-RUN unzip -qq liferay-portal-tomcat-6.2-ce-ga3-20150103155803016.zip
+RUN unzip -qq liferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip
 
-# Add the Portal related property files
-ADD ./conf/liferay/portal-ext.properties /liferay-portal-6.2-ce-ga3/tomcat-7.0.42/webapps/ROOT/WEB-INF/classes/portal-ext.properties
+# Default customized portal-ext.properties that will enable the users
+# to point the Liferay home to the mount volume
+ADD ./conf/liferay/portal-ext.properties /liferay-portal-6.2-ce-ga4/tomcat-7.0.42/webapps/ROOT/WEB-INF/classes/portal-ext.properties
 
 # Remove the bundle
-RUN rm liferay-portal-tomcat-6.2-ce-ga3-20150103155803016.zip ;\
-   sed -i.bak '/CATALINA_OPTS\=/ c \CATALINA_OPTS\="$CATALINA_OPTS -server -Duser.timezone\=GMT -Djava.awt.headless\=true -Dfile.encoding\=UTF-8 -Xms1024m -Xmx1024m -XX:NewSize\=256m -XX:MaxNewSize\=256m -XX:PermSize\=256m -XX:MaxPermSize\=256m -XX:+DisableExplicitGC  -Dorg.apache.catalina.loader.WebappClassLoader.ENABLE_CLEAR_REFERENCES\=false"' /liferay-portal-6.2-ce-ga3/tomcat-7.0.42/bin/setenv.sh
+RUN rm liferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip
+
+# Setup Mount Volume Directories
+RUN mkdir -p /liferay/deploy && mv liferay-portal-6.2-ce-ga4/data /liferay/data
 
 # Liferay Home Dir
-VOLUME ["/liferay"]
+VOLUME  /liferay
 
-WORKDIR /liferay-portal-6.2-ce-ga3
+# Liferay setenv.sh
+VOLUME ["/liferay-portal-6.2-ce-ga4/tomcat-7.0.42/bin/setenv.sh”]
 
-# Expose the ports
-EXPOSE 22 8080
+## Container Start
+
+WORKDIR /liferay-portal-6.2-ce-ga4
+
+# Expose the ports HTTP | OSGi console
+
+EXPOSE 8080 
+
+EXPOSE 11311
+
+## Add points of extension
+ONBUILD ADD ./deploy /liferay/deploy
+ONBUILD ADD ./lib    /liferay-portal-6.2-ce-ga4/tomcat-7.0.42/lib
 
 # Start Liferay
 ENTRYPOINT ["tomcat-7.0.42/bin/catalina.sh"]
 CMD ["run"]
-
