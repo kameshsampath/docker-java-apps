@@ -7,7 +7,7 @@ FROM kameshsampath/openjdk-jre-7
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
 # Download Liferay Portal 6.2-ce-ga4  
-RUN wget -Oliferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.3%20GA4/liferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip/download
+RUN wget -q -oliferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.3%20GA4/liferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip/download
 
 # Unzip the Portal Tomcat Bundle
 RUN unzip -qq liferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip
