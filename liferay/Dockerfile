@@ -26,7 +26,7 @@ RUN mkdir -p /liferay/deploy && mv liferay-portal-6.2-ce-ga4/data /liferay/data
 VOLUME  /liferay
 
 # Liferay setenv.sh
-VOLUME ["/liferay-portal-6.2-ce-ga4/tomcat-7.0.42/bin/setenv.sh”]
+VOLUME ["/liferay-portal-6.2-ce-ga4/tomcat-7.0.42/bin/setenv.sh"]
 
 ## Container Start
 
