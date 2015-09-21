@@ -25,9 +25,6 @@ RUN mkdir -p /liferay/deploy && mv liferay-portal-6.2-ce-ga4/data /liferay/data
 # Liferay Home Dir
 VOLUME  /liferay
 
-# Liferay setenv.sh
-VOLUME ["/liferay-portal-6.2-ce-ga4/tomcat-7.0.42/bin/setenv.sh"]
-
 ## Container Start
 
 WORKDIR /liferay-portal-6.2-ce-ga4
@@ -41,6 +38,7 @@ EXPOSE 11311
 ## Add points of extension
 ONBUILD ADD ./deploy /liferay/deploy
 ONBUILD ADD ./lib    /liferay-portal-6.2-ce-ga4/tomcat-7.0.42/lib
+ONBUILD ADD ./bin/setenv.sh /liferay-portal-6.2-ce-ga4/tomcat-7.0.42/bin
 
 # Start Liferay
 ENTRYPOINT ["tomcat-7.0.42/bin/catalina.sh"]
