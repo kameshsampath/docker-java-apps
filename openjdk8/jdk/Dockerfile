@@ -1,7 +1,7 @@
-FROM alpine:3.3
+FROM centos:7
 
 MAINTAINER Kamesh Sampath, kamesh.sampath@hotmail.com
 
 # Install JDK
-RUN apk upgrade --update && \
-    apk add --update openjdk8
+RUN yum -y install java-1.8.0-openjdk-headless && \
+    yum clean all
